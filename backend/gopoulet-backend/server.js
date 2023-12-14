@@ -2,14 +2,21 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
+import cors from 'cors'; // Importez le module cors
 import { v4 as uuidv4 } from 'uuid';
 import Order from './orderModel.js';
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// Utilisez le middleware cors pour permettre les requêtes cross-origin
+app.use(cors({
+  origin: '*', // ou '*' pour toutes les origines
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Connexion à MongoDB
@@ -29,18 +36,17 @@ app.post('/orders', async (req, res) => {
     }
   });
 
-// Route pour obtenir le statut de la commande par UUID
-app.get('/orders/:uuid', async (req, res) => {
+// Route pour récupérer toutes les commandes
+app.get('/orders', async (req, res) => {
   try {
-    const order = await Order.findOne({ uuid: req.params.uuid });
-    if (!order) {
-      return res.status(404).json({ message: 'Commande non trouvée' });
-    }
-    res.json(order);
+    const orders = await Order.find(); // Récupère toutes les commandes de la base de données
+    res.json(orders);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Erreur interne du serveur" });
   }
 });
+
 
 // Route pour mettre à jour le statut de la commande par UUID
 app.put('/orders/:uuid', async (req, res) => {

@@ -1,5 +1,3 @@
-// RestaurateurComponent.jsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,7 +5,6 @@ const RestaurateurComponent = () => {
   const [orders, setOrders] = useState([]);
   
   useEffect(() => {
-    // Récupérer la liste de toutes les commandes depuis le backend
     axios.get('http://localhost:3000/orders')
       .then((response) => {
         setOrders(response.data);
@@ -18,12 +15,10 @@ const RestaurateurComponent = () => {
   }, []);
 
   const updateOrderStatus = (orderId, newStatus) => {
-    // Mettre à jour le statut de la commande avec une requête au backend
     axios.put(`http://localhost:3000/orders/${orderId}`, { status: newStatus })
       .then((response) => {
-        // Mettre à jour localement la liste des commandes avec le nouveau statut
         const updatedOrders = orders.map((order) => {
-          if (order.id === orderId) {
+          if (order.uuid === orderId) {
             return { ...order, status: newStatus };
           }
           return order;
@@ -36,8 +31,7 @@ const RestaurateurComponent = () => {
   };
 
   const notifyCustomer = (orderId) => {
-    // Envoyer une notification au client lorsque la commande est prête
-    // Vous pouvez implémenter cette fonctionnalité ici
+    // Dans le futur, implémentation de la notification au client
   };
 
   return (
@@ -53,17 +47,17 @@ const RestaurateurComponent = () => {
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
+            <tr key={order.uuid}>
+              <td>{order.uuid}</td>
               <td>{order.status}</td>
               <td>
-                <button onClick={() => updateOrderStatus(order.id, 'En préparation')}>
+                <button onClick={() => updateOrderStatus(order.uuid, 'En préparation')}>
                   Mettre en préparation
                 </button>
-                <button onClick={() => updateOrderStatus(order.id, 'Prêt à récupérer')}>
+                <button onClick={() => updateOrderStatus(order.uuid, 'Prêt à récupérer')}>
                   Prêt à récupérer
                 </button>
-                <button onClick={() => notifyCustomer(order.id)}>
+                <button onClick={() => notifyCustomer(order.uuid)}>
                   Envoyer une notification
                 </button>
               </td>
