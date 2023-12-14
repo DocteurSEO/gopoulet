@@ -7,7 +7,7 @@ const commonStyles = {
       justifyContent: 'center',
       height: '100vh',
       width: '100vw',
-      backgroundColor: '#000',
+      backgroundColor: '#141414',
     },
     contentContainer: {
       padding: '20px',
@@ -29,7 +29,7 @@ const commonStyles = {
     textHeader: {
       margin: '0',
       fontSize: '18px',
-      color: '#000',
+      color: '#141414',
       fontWeight: 'bold',
     },
     text: {

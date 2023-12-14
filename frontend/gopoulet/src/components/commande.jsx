@@ -1,36 +1,34 @@
-// src/components/Commande.jsx
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import commonStyles from '../styles/commonStyles';
-import logo from '../assets/img/logo.png';
+import commonStyles from '../styles/commonStyles'; // Importez vos styles communs
 
 const Commande = () => {
-  const [orderStatus, setOrderStatus] = useState('Traitement en cours...');
+  const [orderStatus, setOrderStatus] = useState('en attente');
   const [orderId, setOrderId] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const uniqueId = uuidv4();
-    setOrderId(uniqueId);
+    const storedOrderId = sessionStorage.getItem('orderId');
+    setOrderId(storedOrderId); // Sauvegardez l'ID de commande dans l'état
 
-    setTimeout(() => {
-      setOrderStatus('Commande réussie, merci !');
-    }, 2000);
+    if (storedOrderId) {
+      axios.get(`http://localhost:3000/orders/${storedOrderId}`)
+        .then(response => {
+          setOrderStatus(response.data.status); // Mettez à jour le statut de la commande
+        })
+        .catch(error => {
+          console.error('Erreur lors de la récupération du statut de la commande:', error);
+        });
+    }
   }, []);
 
   return (
     <div style={commonStyles.pageContainer}>
       <div style={commonStyles.contentContainer}>
-        <img src={logo} alt="Logo" style={commonStyles.logo} />
-        <h1>Status de la commande</h1>
-        <p>{orderStatus}</p>
-        {orderStatus === 'Commande réussie, merci !' && (
-          <>
-            <p>Votre commande est confirmée.</p>
-            <p>ID de commande: {orderId}</p>
-          </>
-        )}
+        <h1>Statut de la commande</h1>
+        <p>Statut : {orderStatus}</p>
+        {orderId && <p>ID de la commande : {orderId}</p>}
         <button style={commonStyles.button} onClick={() => navigate('/')}>
           Retour à l'accueil
         </button>

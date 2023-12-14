@@ -1,18 +1,23 @@
 // App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import OrderComponent from './components/OrderComponent';
 import Commande from './components/Commande';
+import RestaurateurComponent from './components/RestaurateurComponent';
 
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<OrderComponent />} />
-        <Route path="/commande" element={<Commande />} />
-      </Routes>
+      <div>
+        <Link to="/restaurateur">Accès restaurateur</Link>
+        <Routes>
+          <Route path="/" element={<OrderComponent />} />
+          <Route path="/commande" element={<Commande />} />
+          <Route path="/restaurateur" element={<RestaurateurComponent />} />
+        </Routes>
+      </div>
     </Router>
   );
-}
+};
 
 export default App;

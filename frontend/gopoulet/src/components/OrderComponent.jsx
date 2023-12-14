@@ -1,15 +1,27 @@
 // src/components/OrderComponent.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import roastedChicken from '../assets/img/cuisse-de-poulet.png';
 import logo from '../assets/img/logo.png';
 import commonStyles from '../styles/commonStyles';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const OrderComponent = () => {
   const navigate = useNavigate();
 
   const handleOrderClick = () => {
-    navigate('/commande');
+    // Envoie une requête de création de commande au backend
+    axios.post('http://localhost:3000/orders')
+      .then(response => {
+        console.log('Commande créée:', response.data);
+        // Supposons que le backend renvoie l'UUID dans response.data.uuid
+        const orderId = response.data.uuid;
+        sessionStorage.setItem('orderId', orderId);
+        navigate('/commande');
+      })
+      .catch(error => {
+        console.error('Erreur lors de la création de la commande:', error);
+      });
   };
 
   return (
