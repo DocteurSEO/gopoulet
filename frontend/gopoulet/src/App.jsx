@@ -9,7 +9,6 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Link to="/restaurateur">Accès restaurateur</Link>
         <Routes>
           <Route path="/" element={<OrderComponent />} />
           <Route path="/commande" element={<Commande />} />

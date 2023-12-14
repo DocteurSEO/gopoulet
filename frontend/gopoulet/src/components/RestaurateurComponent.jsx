@@ -30,6 +30,16 @@ const RestaurateurComponent = () => {
         console.error('Erreur lors de la mise à jour du statut de la commande :', error);
       });
   };
+  const deleteOrder = (orderId) => {
+    axios.delete(`http://localhost:3000/orders/${orderId}`)
+      .then(() => {
+        // Filtrez l'état actuel des commandes pour enlever celle qui a été supprimée
+        setOrders(orders.filter(order => order.uuid !== orderId));
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la suppression de la commande :', error);
+      });
+  };
 
   const notifyCustomer = (orderId) => {
     // Dans le futur, implémentation de la notification au client
