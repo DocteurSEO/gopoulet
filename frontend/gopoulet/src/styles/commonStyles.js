@@ -47,6 +47,39 @@ const commonStyles = {
       borderRadius: '5px',
       cursor: 'pointer',
     },
+    restaurateurPage: {
+      padding: '20px',
+      fontFamily: 'Arial, sans-serif',
+    },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      backgroundColor: '#141414', // Fond blanc cassé
+      borderRadius: '8px', // Bords arrondis
+      overflow: 'hidden', // Pour appliquer le border-radius au tableau
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', // Ombre légère pour un aspect moderne
+    },
+    th: {
+      background: '#4CAF50',
+      color: 'white',
+      padding: '15px 10px',
+    },
+    td: {
+      border: '1px solid #ddd',
+      padding: '10px',
+      textAlign: 'center',
+    },
+    button: {
+      margin: '5px',
+      padding: '10px 15px',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease', // Transition pour les interactions de bouton
+    },
+    deleteButton: {
+      backgroundColor: '#ff6347',
+    },
   };
   
   export default commonStyles;

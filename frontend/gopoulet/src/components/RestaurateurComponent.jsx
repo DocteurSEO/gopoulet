@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from '../styles/commonStyles';
 
 const RestaurateurComponent = () => {
   const [orders, setOrders] = useState([]);
@@ -35,30 +36,31 @@ const RestaurateurComponent = () => {
   };
 
   return (
-    <div>
+    <div style={styles.restaurateurPage}>
       <h1>Interface Restaurateur</h1>
-      <table>
+      <table style={styles.table}>
         <thead>
           <tr>
-            <th>ID de la commande</th>
-            <th>Statut de la commande</th>
-            <th>Action</th>
+            <th style={styles.th}>ID de la commande</th>
+            <th style={styles.th}>Statut de la commande</th>
+            <th style={styles.th}>Action</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
             <tr key={order.uuid}>
-              <td>{order.uuid}</td>
-              <td>{order.status}</td>
-              <td>
-                <button onClick={() => updateOrderStatus(order.uuid, 'En préparation')}>
+              <td style={styles.td}>{order.uuid}</td>
+              <td style={styles.td}>{order.status}</td>
+              <td style={styles.td}>
+                {/* ... Boutons avec styles ... */}
+                <button style={{ ...styles.button, backgroundColor: '#28a745' }} onClick={() => updateOrderStatus(order.uuid, 'En préparation')}>
                   Mettre en préparation
                 </button>
-                <button onClick={() => updateOrderStatus(order.uuid, 'Prêt à récupérer')}>
+                <button style={{ ...styles.button, backgroundColor: '#17a2b8' }} onClick={() => updateOrderStatus(order.uuid, 'Prêt à récupérer')}>
                   Prêt à récupérer
                 </button>
-                <button onClick={() => notifyCustomer(order.uuid)}>
-                  Envoyer une notification
+                <button style={{ ...styles.button, ...styles.deleteButton }} onClick={() => deleteOrder(order.uuid)}>
+                  Supprimer
                 </button>
               </td>
             </tr>

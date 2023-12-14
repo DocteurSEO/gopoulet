@@ -2,7 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import OrderComponent from './components/OrderComponent';
-import Commande from './components/Commande';
+import Commande from './components/commande';
 import RestaurateurComponent from './components/RestaurateurComponent';
 
 const App = () => {
