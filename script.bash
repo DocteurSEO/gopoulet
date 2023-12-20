@@ -1,17 +1,13 @@
 set -e
 
-cd ./backend
+cd ./backend/gopoulet-backend
 pwd
-echo "install dependance"
+echo "Installation des dépendances du backend "
 npm install
 
-cd ../frontend/gopoulet
+cd ../../frontend/gopoulet
 pwd
-echo "install dependance"
+echo "Installation des dépendance du frontend"
 npm install
-echo "build"
+echo "Contruction build"
 npm run build
-
-
-
-serve -s dist
