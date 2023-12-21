@@ -1,4 +1,3 @@
-// server.js
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -22,8 +21,8 @@ app.use(cors({
 
 app.use(express.json());
 
-// Connexion à MongoDB
-mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// Connexion à MongoDB (Note: removed deprecated options)
+mongoose.connect(process.env.DB_URI)
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(err => console.error('Impossible de se connecter à MongoDB', err));
 
