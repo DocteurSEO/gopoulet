@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors'; // Importez le module cors
+import cors from 'cors';
 import { v4 as uuidv4 } from 'uuid';
 import Order from './orderModel.js';
 import User from './models/User.js';
@@ -12,7 +12,6 @@ dotenv.config();
 
 const app = express();
 
-// Utilisez le middleware cors pour permettre les requêtes cross-origin
 app.use(cors({
   origin: '*', // ou '*' pour toutes les origines
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -34,7 +33,7 @@ app.post('/orders', async (req, res) => {
     
     // Générer le QR Code
     const qrCodeData = await QRCode.toDataURL(newOrder.uuid);
-    
+    console.log('Generated QR Code Data URL:', qrCodeData); // Add this line to log the QR code data
     // Répondre avec la commande et le QR Code
     res.status(201).json({ order: newOrder, qrCode: qrCodeData });
   } catch (error) {

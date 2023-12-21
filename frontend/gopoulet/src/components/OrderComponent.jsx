@@ -25,22 +25,29 @@ const OrderComponent = () => {
   const handleOrderClick = () => {
     axios.post('http://localhost:3000/orders')
       .then(response => {
-        // Access the UUID from the nested order object
-        const orderId = response.data.order.uuid;
-        console.log('Commande créée:', orderId);
+        // Log the entire response to see what data is included
+        console.log('Order creation response:', response.data);
   
-        // Update state, sessionStorage, and cookies with the new order ID
-        let updatedOrders = [...orders, orderId];
+        const { uuid } = response.data.order; // Correctly getting the UUID from the response
+        const qrCode = response.data.qrCode; // QR Code is directly on response.data
+        console.log('QR Code Data URL:', qrCode); // Log the QR Code data URL
+  
+        // Update state, sessionStorage, and cookies with the new order ID and QR code
+        let updatedOrders = [...orders, uuid];
         setOrders(updatedOrders);
         sessionStorage.setItem('orders', JSON.stringify(updatedOrders));
         Cookies.set('orders', JSON.stringify(updatedOrders));
+        
+        // Save the QR code data URL to sessionStorage
+        sessionStorage.setItem('qrCodeData', qrCode);
   
-        navigate('/commande');
+        navigate('/commande', { state: { orderId: uuid, qrCodeData: qrCode } }); // Pass orderId and qrCodeData to the commande route
       })
       .catch(error => {
         console.error('Erreur lors de la création de la commande:', error);
       });
   };
+  
   
 
   const handleStatusCheck = () => {
