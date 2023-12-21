@@ -74,13 +74,16 @@ const commonStyles = {
     height: '150px', // Example height, adjust as needed
     marginTop: '10px',
   },
-    // Mise à jour des styles de la page
-    restaurateurPage: {
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif',
-      backgroundColor: '#f7f7f7', // Couleur de fond plus claire pour un look moderne
-      minHeight: '100vh', // Hauteur pour prendre tout l'espace vertical
-    },
+  restaurateurPage: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '15em',
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: '#191414', // Couleur de fond plus claire pour un look moderne
+    minHeight: '20vh', // Hauteur pour prendre tout l'espace vertical
+  },
   
     // Mise à jour des styles de la table
     table: {
