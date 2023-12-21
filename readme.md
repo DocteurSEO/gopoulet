@@ -1,5 +1,12 @@
 # DOC-START-TIRIEL-ALYPTUS
 
+# *STOP !*
+**Avant de commencer** :
+- Le frontend est en ReactJS
+- Le backend est un server express
+- Tu dois utiliser MongoDb et créer une base de donnée avec le plan "M0" (Gratuit).
+- La base de donnée devras se nommer "gopoulet" et les tables seront d'auto-row par l'utilisation d'un Handclick sur le boutton "Commander un poulet".
+
 ## Comment faire tourner le projet ?
 
 - *Côté Frontend* :
