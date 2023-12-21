@@ -33,7 +33,7 @@ app.post('/orders', async (req, res) => {
     
     // Générer le QR Code
     const qrCodeData = await QRCode.toDataURL(newOrder.uuid);
-    console.log('Generated QR Code Data URL:', qrCodeData); // Add this line to log the QR code data
+    // console.log('Generated QR Code Data URL:', qrCodeData); // Add this line to log the QR code data
     // Répondre avec la commande et le QR Code
     res.status(201).json({ order: newOrder, qrCode: qrCodeData });
   } catch (error) {
@@ -112,7 +112,7 @@ app.post('/login', async (req, res) => {
 
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Serveur en écoute sur le port ${PORT}`);
 });

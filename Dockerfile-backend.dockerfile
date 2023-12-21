@@ -8,5 +8,6 @@ COPY ./backend/gopoulet-backend ./
 RUN npm install 
 
 EXPOSE 27017
+EXPOSE 4000
 
-CMD ["npm start"]
+CMD ["npm", "start"]
