@@ -1,0 +1,19 @@
+version: "3.1"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend.dockerfile
+    image: gopoulet-frontend
+    ports:
+      - 80:3000
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend.dockerfile
+    image: gopoulet-backend
+    ports:
+      - 27017:27017
+      - 4000:4000
+
+    
