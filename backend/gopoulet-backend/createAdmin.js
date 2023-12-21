@@ -23,8 +23,8 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
 
 // Création de l'utilisateur administrateur
 const createAdmin = async () => {
-  const hashedPassword = await bcrypt.hash('Rk822mCm', 10); // Hash du mot de passe
-  const adminUser = new User({ username: 'adm_alyptus', password: hashedPassword });
+  const hashedPassword = await bcrypt.hash('test', 10); // Hash du mot de passe
+  const adminUser = new User({ username: 'adm', password: hashedPassword });
 
   try {
     await adminUser.save();
