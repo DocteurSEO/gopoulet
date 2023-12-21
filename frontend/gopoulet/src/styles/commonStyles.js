@@ -74,6 +74,39 @@ const commonStyles = {
     height: '150px', // Example height, adjust as needed
     marginTop: '10px',
   },
+    // Mise à jour des styles de la page
+    restaurateurPage: {
+      padding: '20px',
+      fontFamily: 'Arial, sans-serif',
+      backgroundColor: '#f7f7f7', // Couleur de fond plus claire pour un look moderne
+      minHeight: '100vh', // Hauteur pour prendre tout l'espace vertical
+    },
+  
+    // Mise à jour des styles de la table
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      margin: '20px 0', // Ajout d'un peu d'espace autour de la table
+      boxShadow: '0 10px 20px rgba(0,0,0,0.12)', // Ombre portée pour un effet de profondeur
+      borderRadius: '10px', // Coins arrondis pour la table
+      overflow: 'hidden', // Cache les bordures sur les côtés arrondis
+    },
+  
+    th: {
+      backgroundColor: '#005f73', // Couleur foncée pour les en-têtes
+      color: '#ffffff',
+      padding: '15px',
+      fontSize: '16px', // Taille de police ajustée
+      fontWeight: '600', // Police un peu plus épaisse
+    },
+  
+    td: {
+      backgroundColor: '#ffffff', // Fond blanc pour les cellules
+      color: '#333333', // Couleur de texte foncée pour le contraste
+      padding: '12px 15px',
+      fontSize: '14px',
+      borderBottom: '1px solid #dddddd', // Bordures subtiles pour séparer les lignes
+    },
 };
 
 export default commonStyles;

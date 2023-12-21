@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import io from 'socket.io-client';
 import commonStyles from '../styles/commonStyles';
 
 const Commande = () => {
@@ -11,32 +12,35 @@ const Commande = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Retrieve orderId and qrCodeData from the location state if it exists
-    const state = location.state || {};
-    const storedOrderId = state.orderId || sessionStorage.getItem('orderId');
-    const storedQrCodeData = state.qrCodeData || sessionStorage.getItem('qrCodeData');
+    const socket = io('http://localhost:3000'); // Replace with your server URL
+    const storedOrderId = location.state?.orderId || sessionStorage.getItem('orderId');
+    const storedQrCodeData = location.state?.qrCodeData || sessionStorage.getItem('qrCodeData');
+
+    setOrderId(storedOrderId);
+    setQrCodeData(storedQrCodeData);
 
     if (storedOrderId) {
-      setOrderId(storedOrderId);
-      axios.get(`http://localhost:3000/orders/${storedOrderId}`)
-        .then(response => {
-          setOrderStatus(response.data.status); // Update the order status
-        })
-        .catch(error => {
-          console.error('Erreur lors de la récupération du statut de la commande:', error);
-        });
-    }
+      socket.emit('joinOrderRoom', storedOrderId);
 
-    if (storedQrCodeData) {
-      setQrCodeData(storedQrCodeData);
+      socket.on('orderStatusChanged', (data) => {
+        if (data.orderId === storedOrderId) {
+          setOrderStatus(data.newStatus);
+          alert('Order status updated!');
+        }
+      });
+
+      return () => {
+        socket.off('orderStatusChanged');
+        socket.disconnect();
+      };
     }
-  }, [navigate, location]);
+  }, [location, navigate]);
 
   return (
     <div style={commonStyles.pageContainer}>
       <div style={commonStyles.contentContainer}>
         <h1>Statut de la commande</h1>
-        <p>Statut : {orderStatus}</p>
+        <p>Statut : {orderStatus}</p> {/* Display the order status */}
         {orderId && <p>ID de la commande : {orderId}</p>}
         {qrCodeData ? (
           <img src={qrCodeData} alt="QR Code" style={commonStyles.qrCodeImage} />

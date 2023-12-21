@@ -16,38 +16,51 @@ const OrderComponent = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    // Récupérer les commandes de sessionStorage ou des cookies au chargement du composant
+    // Retrieve orders from sessionStorage or cookies on component load
     const storedOrders = JSON.parse(sessionStorage.getItem('orders') || '[]');
     const cookieOrders = JSON.parse(Cookies.get('orders') || '[]');
-    setOrders([...new Set([...storedOrders, ...cookieOrders])]); // Merge and remove duplicates
+    const allOrders = [...new Set([...storedOrders, ...cookieOrders])]; // Merge and remove duplicates
+
+    // Fetch the status for all orders
+    const fetchOrderStatuses = async () => {
+      const statuses = await Promise.all(allOrders.map(async (orderId) => {
+        const response = await axios.get(`http://localhost:3000/orders/${orderId}`);
+        return { id: orderId, status: response.data.status };
+      }));
+
+      setOrders(statuses);
+    };
+
+    fetchOrderStatuses();
   }, []);
 
   const handleOrderClick = () => {
     axios.post('http://localhost:3000/orders')
       .then(response => {
-        // Log the entire response to see what data is included
         console.log('Order creation response:', response.data);
-  
-        const { uuid } = response.data.order; // Correctly getting the UUID from the response
-        const qrCode = response.data.qrCode; // QR Code is directly on response.data
-        console.log('QR Code Data URL:', qrCode); // Log the QR Code data URL
-  
-        // Update state, sessionStorage, and cookies with the new order ID and QR code
-        let updatedOrders = [...orders, uuid];
+
+        const orderId = response.data.order.uuid; // Access the order UUID
+        const qrCodeData = response.data.qrCode; // Access the QR code data
+
+        // Update state with the new order ID
+        const updatedOrders = [...orders, orderId];
         setOrders(updatedOrders);
+
+        // Save the new order ID to sessionStorage and cookies
         sessionStorage.setItem('orders', JSON.stringify(updatedOrders));
         Cookies.set('orders', JSON.stringify(updatedOrders));
-        
-        // Save the QR code data URL to sessionStorage
-        sessionStorage.setItem('qrCodeData', qrCode);
-  
-        navigate('/commande', { state: { orderId: uuid, qrCodeData: qrCode } }); // Pass orderId and qrCodeData to the commande route
+
+        // Save the QR code data to sessionStorage
+        sessionStorage.setItem('qrCodeData', qrCodeData);
+
+        // Redirect to the commande route with orderId and qrCodeData in the state
+        navigate('/commande', { state: { orderId: orderId, qrCodeData: qrCodeData } });
       })
       .catch(error => {
         console.error('Erreur lors de la création de la commande:', error);
       });
   };
-  
+
   
 
   const handleStatusCheck = () => {
@@ -88,8 +101,10 @@ const OrderComponent = () => {
         <div>
           <h3>Commandes de la session :</h3>
           <ul>
-            {orders.map((orderId, index) => (
-              <li key={index}>ID de la commande: {orderId}</li>
+            {orders.map((order) => (
+              <li key={order.id}>
+                ID de la commande: {order.id} - Statut: {order.status}
+              </li>
             ))}
           </ul>
         </div>
